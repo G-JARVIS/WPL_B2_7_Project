@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PFM - User Profile</title>
+  
+  <!-- Bootstrap 4 CSS (CDN) -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <!-- Font Awesome (for icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+  
+  <style>
+    /* GLOBAL RESET & BODY */
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #ffffff;
+      color: #333;
+    }
+    
+    /* LEFT SIDEBAR */
+    .sidebar {
+      background-color: #1a1f7b;
+      min-height: 100vh;
+      width: 200px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 1.5rem 1rem;
+      color: #fff;
+    }
+    .sidebar .logo {
+      font-size: 1.4rem;
+      font-weight: bold;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .sidebar ul { list-style: none; padding: 0; }
+    .sidebar ul li { margin-bottom: 1rem; }
+    .sidebar ul li a {
+      display: block;
+      color: #fff;
+      text-decoration: none;
+      padding: 0.5rem;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+    .sidebar ul li a:hover,
+    .sidebar ul li a.active {
+      background-color: #2b348c;
+      font-weight: 600;
+    }
+    
+    /* MAIN CONTENT */
+    .main-content {
+      margin-left: 200px; /* leave space for sidebar */
+      padding: 1.5rem;
+    }
+    
+    /* Profile Header (Cover Photo & Overlapping Avatar) */
+    .profile-header {
+      position: relative;
+      margin-bottom: 3rem;
+    }
+    .cover-photo {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .avatar {
+      position: absolute;
+      left: 50%;
+      bottom: -50px;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 4px solid #ffffff;
+      object-fit: cover;
+      background-color: #ccc;
+    }
+    
+    /* Profile Card */
+    .profile-card {
+      background-color: #f5f7ff;
+      border: 1px solid #e2e2e2;
+      border-radius: 8px;
+      padding: 2rem 1rem 1rem;
+      margin-top: 80px; /* increased to accommodate the overlapping avatar */
+      text-align: center;
+    }
+    .profile-card h2 {
+      color: #1a1f7b;
+      margin-top: 60px;
+      font-size: 1.8rem;
+      font-weight: 600;
+    }
+    .profile-card p {
+      color: #666;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+    .social-links a {
+      color: #1a1f7b;
+      font-size: 1.2rem;
+      margin: 0 0.5rem;
+      transition: color 0.3s;
+    }
+    .social-links a:hover {
+      color: #2b348c;
+    }
+    
+    /* Tabs for Profile Details & Activity */
+    .nav-tabs .nav-link {
+      color: #1a1f7b;
+      font-weight: 600;
+    }
+    .nav-tabs .nav-link.active {
+      background-color: #f5f7ff;
+      border-color: #ddd;
+    }
+    
+    /* Profile Form Styling */
+    .profile-form label {
+      font-weight: 600;
+      color: #1a1f7b;
+    }
+    .profile-form .form-control {
+      background-color: #ffffff;
+    }
+    
+    /* Recent Activity Card */
+    .activity-card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background-color: #ffffff;
+    }
+    
+    @media (max-width: 992px) {
+      .sidebar { position: static; width: 100%; min-height: auto; border-bottom: 1px solid #ddd; }
+      .main-content { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- LEFT SIDEBAR -->
+  <div class="sidebar">
+    <div class="logo">PFM</div>
+    <ul>
+      <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="transactions.html"><i class="fas fa-exchange-alt"></i> Transactions</a></li>
+      <li><a href="analytics.html"><i class="fas fa-chart-line"></i> Analytics</a></li>
+      <li><a href="wallet.html"><i class="fas fa-wallet"></i> My Wallet</a></li>
+      <li><a href="user.html" class="active"><i class="fas fa-user"></i> User</a></li>
+      <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+      <li><a href="faqs.html"><i class="fas fa-question-circle"></i> FAQs</a></li>
+      <li><a href="logout.html"><i class="fas fa-sign-out-alt"></i> Log Out</a></li>
+    </ul>
+  </div>
+  
+  <!-- MAIN CONTENT -->
+  <div class="main-content container">
+    <!-- Profile Header with Cover Photo and Avatar -->
+    <div class="profile-header">
+      <!-- Replace with your actual cover photo URL if available -->
+      <img src="https://via.placeholder.com/800x200.png?text=Cover+Photo" alt="Cover Photo" class="cover-photo">
+      <!-- Avatar from local assets folder -->
+      <img src="assets/images/avatar.png" alt="User Avatar" class="avatar">
+    </div>
+    
+    <!-- Profile Card -->
+    <div class="profile-card">
+      <h2>Tony Starc</h2>
+      <p>tony.starc@example.com</p>
+      <p>+91-8554992542</p>
+      <div class="social-links my-3">
+        <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+        <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+      </div>
+      
+      <!-- Tabbed Interface -->
+      <ul class="nav nav-tabs justify-content-center" id="profileTabs" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="details-tab" data-toggle="tab" href="#details" role="tab">
+            Profile Details
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="activity-tab" data-toggle="tab" href="#activity" role="tab">
+            Recent Activity
+          </a>
+        </li>
+      </ul>
+      <div class="tab-content mt-3" id="profileTabsContent">
+        <!-- Profile Details Tab -->
+        <div class="tab-pane fade show active" id="details" role="tabpanel">
+          <form class="profile-form">
+            <div class="form-group text-left">
+              <label for="fullName">Full Name</label>
+              <input type="text" id="fullName" class="form-control" value="Tony Starc">
+            </div>
+            <div class="form-group text-left">
+              <label for="userEmail">Email</label>
+              <input type="email" id="userEmail" class="form-control" value="tony.starc@example.com">
+            </div>
+            <div class="form-group text-left">
+              <label for="userPhone">Phone</label>
+              <input type="text" id="userPhone" class="form-control" value="+91-8554992542">
+            </div>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+          </form>
+        </div>
+        <!-- Recent Activity Tab -->
+        <div class="tab-pane fade" id="activity" role="tabpanel">
+          <div class="activity-card">
+            <p><strong>10:30 AM:</strong> Deposited Rs. 5,000.</p>
+          </div>
+          <div class="activity-card">
+            <p><strong>Yesterday:</strong> Updated profile information.</p>
+          </div>
+          <div class="activity-card">
+            <p><strong>2 days ago:</strong> Withdrew Rs. 2,000.</p>
+          </div>
+          <!-- Additional activity items can be added here -->
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Bootstrap JS (jQuery, Popper.js, Bootstrap JS) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
+</body>
+</html>

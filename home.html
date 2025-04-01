@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PFM - Home</title>
+
+  <!-- Bootstrap 4 CSS (CDN) -->
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+  />
+
+  <!-- Font Awesome (optional for icons) -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+  />
+
+  <!-- Chart.js (for responsive charts) -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"
+    defer
+  ></script>
+
+  <!-- Custom JS (initialize charts) -->
+  <script defer>
+    document.addEventListener('DOMContentLoaded', function () {
+      // ===== Donut Chart (Total, Income, Expense) =====
+      const ctxDonut = document.getElementById('donutChart').getContext('2d');
+      new Chart(ctxDonut, {
+        type: 'doughnut',
+        data: {
+          labels: ['Income', 'Expenses'],
+          datasets: [
+            {
+              label: 'This Month',
+              data: [18000, 5000], // Example data
+              backgroundColor: ['#4CAF50', '#F44336'], // Green & Red
+              hoverOffset: 4,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          cutout: '60%',
+        },
+      });
+
+      // ===== Line Chart (Financial Statistics) =====
+      const ctxLine = document.getElementById('lineChart').getContext('2d');
+      new Chart(ctxLine, {
+        type: 'line',
+        data: {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+          datasets: [
+            {
+              label: 'Savings',
+              data: [5000, 7000, 6000, 8000, 9000, 10000],
+              fill: false,
+              borderColor: '#1a73e8',
+              tension: 0.1,
+            },
+            {
+              label: 'Spending',
+              data: [2000, 4000, 3000, 6000, 5000, 7000],
+              fill: false,
+              borderColor: '#f44336',
+              tension: 0.1,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+      });
+    });
+  </script>
+
+  <style>
+    /* GLOBAL STYLES */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #ffffff;
+      color: #000000;
+    }
+
+    /* LEFT SIDEBAR */
+    .sidebar {
+      background-color: #1a1f7b; /* Deep blue */
+      min-height: 100vh;
+      color: #fff;
+      padding: 1.5rem 1rem;
+      position: fixed; /* Stays fixed on the left */
+      top: 0;
+      left: 0;
+      width: 200px; /* Adjust as needed */
+    }
+    .sidebar .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .sidebar ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    .sidebar ul li {
+      margin-bottom: 1rem;
+    }
+    .sidebar ul li a {
+      color: #fff;
+      text-decoration: none;
+      display: block;
+      padding: 0.5rem;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+    .sidebar ul li a:hover {
+      background-color: #2b348c; /* Slightly lighter shade */
+    }
+    .sidebar ul li a.active {
+      background-color: #2b348c;
+    }
+
+    /* RIGHT SIDEBAR */
+    .right-sidebar {
+      background-color: #eaeffd;
+      min-height: 100vh;
+      padding: 1.5rem;
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 250px; /* Adjust as needed */
+    }
+    .right-sidebar h4 {
+      margin-bottom: 1rem;
+      font-weight: bold;
+      color: #1a1f7b;
+    }
+    .category-card {
+      background-color: #ffffff;
+      border-radius: 6px;
+      padding: 0.8rem 1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-left: 4px solid #1a1f7b;
+    }
+    .category-card span {
+      font-weight: bold;
+      color: #333;
+    }
+
+    /* MAIN CONTENT */
+    .main-content {
+      /* Reserve space on both sides for sidebars */
+      margin-left: 200px; /* same width as the left sidebar */
+      margin-right: 250px; /* same width as the right sidebar */
+      padding: 1.5rem;
+    }
+
+    /* WELCOME SECTION */
+    .welcome-section {
+      background-color: #f0f2ff; /* Light blueish background */
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .welcome-section h2 {
+      margin-bottom: 0.5rem;
+    }
+    .welcome-section p {
+      margin-bottom: 0;
+      font-size: 1rem;
+      color: #333;
+    }
+
+    /* DONUT CHART CONTAINER */
+    .donut-chart-container {
+      position: relative;
+      width: 220px;
+      margin: 1rem auto;
+      text-align: center;
+    }
+    .donut-chart-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-weight: bold;
+      color: #333;
+      text-align: center;
+    }
+    .donut-amount {
+      font-size: 1.2rem;
+      margin-top: 0.5rem;
+    }
+
+    /* SECTION TITLES */
+    .section-title {
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin-top: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    /* FINANCIAL STATS (LINE CHART) */
+    .financial-stats {
+      background-color: #f0f2ff;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .financial-stats canvas {
+      width: 100%;
+      height: 300px;
+    }
+
+    /* RESPONSIVE LAYOUT */
+    @media (max-width: 992px) {
+      /* When screen is smaller, stack the sidebars or hide them as needed */
+
+      .sidebar {
+        position: static;
+        width: 100%;
+        min-height: auto;
+      }
+      .right-sidebar {
+        position: static;
+        width: 100%;
+        min-height: auto;
+        margin-top: 1rem;
+      }
+      .main-content {
+        margin-left: 0;
+        margin-right: 0;
+      }
+    } 
+  </style>
+</head>
+<body>
+  <!-- LEFT SIDEBAR -->
+  <div class="sidebar">
+    <div class="logo">PFM</div>
+    <ul>
+      <li><a href="#" class="active"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="transactions.html"><i class="fas fa-exchange-alt"></i> Transaction</a></li>
+      <li><a href="analytics.html"><i class="fas fa-chart-pie"></i> Analytics</a></li>
+      <li><a href="wallet.html"><i class="fas fa-wallet"></i> My Wallet</a></li>
+      <li><a href="user.html"><i class="fas fa-user"></i> User</a></li>
+      <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+      <li><a href="faq.html"><i class="fas fa-question-circle"></i> FAQs</a></li>
+      <li><a href="logout.html"><i class="fas fa-sign-out-alt"></i> Log Out</a></li>
+    </ul>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+    <!-- Welcome Section -->
+    <div class="welcome-section">
+      <h2>Welcome User,</h2>
+      <p>Access & manage your account efficiently</p>
+    </div>
+
+    <!-- Circle Stats (Total, Income, Expense) -->
+    <div class="row">
+      <!-- Donut Chart + Label -->
+      <div class="col-md-4 text-center">
+        <div class="donut-chart-container">
+          <canvas id="donutChart"></canvas>
+          <!-- Overlay label inside donut -->
+          <div class="donut-chart-label">
+            <div>Total</div>
+            <div class="donut-amount">Rs. 23,000</div>
+          </div>
+        </div>
+      </div>
+      <!-- Some Additional Info (if needed) -->
+      <div class="col-md-8 d-flex align-items-center">
+        <div>
+          <h5>This Month</h5>
+          <p>
+            <strong>Income:</strong> Rs. 18,000 &emsp; 
+            <strong>Expense:</strong> Rs. 5,000
+          </p>
+          <p>
+            Here you can add any extra details about income/expenses or show
+            quick stats for this month.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lifetime Spending vs Savings / Financial Statistics -->
+    <div class="section-title">Lifetime Spending vs Savings</div>
+    <div class="financial-stats">
+      <canvas id="lineChart"></canvas>
+    </div>
+  </div>
+
+  <!-- RIGHT SIDEBAR (Top Categories) -->
+  <div class="right-sidebar">
+    <h4>Top Categories Spend</h4>
+    <div class="category-card">
+      <span>Shopping</span>
+      <span>Rs. 1800</span>
+    </div>
+    <div class="category-card">
+      <span>Food</span>
+      <span>Rs. 1200</span>
+    </div>
+    <div class="category-card">
+      <span>Bills</span>
+      <span>Rs. 900</span>
+    </div>
+    <div class="category-card">
+      <span>Utensils</span>
+      <span>Rs. 500</span>
+    </div>
+  </div>
+
+  <!-- Bootstrap 4 JS (Popper + Bootstrap) -->
+  <script
+    src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+    crossorigin="anonymous"
+  ></script>
+</body>
+</html>

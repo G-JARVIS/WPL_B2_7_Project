@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PFM - Analytics</title>
+  <!-- Bootstrap 4 CSS (CDN) -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <!-- Font Awesome (for icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+  <!-- Chart.js (for responsive charts) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js" defer></script>
+  
+  <!-- Custom JavaScript for initializing charts and filters -->
+  <script defer>
+    let barChart, lineChart, doughnutChart, horizontalBarChart;
+
+    document.addEventListener("DOMContentLoaded", function () {
+      // Initialize charts
+      const ctxBar = document.getElementById("barChart").getContext("2d");
+      barChart = new Chart(ctxBar, {
+        type: "bar",
+        data: {
+          labels: ["Jan", "Feb", "Mar", "Apr"],
+          datasets: [
+            {
+              label: "Income",
+              data: [15000, 12000, 18000, 20000],
+              backgroundColor: "#4CAF50",
+            },
+            {
+              label: "Expense",
+              data: [8000, 9000, 7000, 11000],
+              backgroundColor: "#F44336",
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          scales: { y: { beginAtZero: true } },
+        },
+      });
+
+      const ctxLine = document.getElementById("lineChart").getContext("2d");
+      lineChart = new Chart(ctxLine, {
+        type: "line",
+        data: {
+          labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+          datasets: [{
+            label: "Earnings",
+            data: [5000, 8000, 6000, 12000, 9000, 15000],
+            borderColor: "#2196F3",
+            fill: false,
+            tension: 0.1,
+          }],
+        },
+        options: { responsive: true, scales: { y: { beginAtZero: true } } },
+      });
+
+      const ctxDoughnut = document.getElementById("doughnutChart").getContext("2d");
+      doughnutChart = new Chart(ctxDoughnut, {
+        type: "doughnut",
+        data: {
+          labels: ["Shopping", "Food", "Bills", "Misc"],
+          datasets: [{
+            label: "Spending Breakdown",
+            data: [3500, 2500, 1500, 2000],
+            backgroundColor: ["#FF9800", "#03A9F4", "#9C27B0", "#CDDC39"],
+          }],
+        },
+        options: { responsive: true, cutout: "60%" },
+      });
+
+      const ctxHBar = document.getElementById("horizontalBarChart").getContext("2d");
+      horizontalBarChart = new Chart(ctxHBar, {
+        type: "bar",
+        data: {
+          labels: ["Rent", "Utilities", "Entertainment", "Travel"],
+          datasets: [{
+            label: "Amount (Rs)",
+            data: [8000, 3000, 4000, 5000],
+            backgroundColor: "#FF5722",
+          }],
+        },
+        options: {
+          indexAxis: "y",
+          responsive: true,
+          scales: { x: { beginAtZero: true } },
+        },
+      });
+      
+      // Attach event listener to the refresh button
+      document.getElementById("refreshBtn").addEventListener("click", applyFilters);
+    });
+    
+    // This function simulates reading filter values and updating the charts
+    function applyFilters() {
+      const startDate = document.getElementById("startDate").value;
+      const endDate = document.getElementById("endDate").value;
+      const category = document.getElementById("categorySelect").value;
+      
+      // For demo: just log the filter values
+      console.log("Filters applied:", { startDate, endDate, category });
+      
+      // Here you could fetch new data based on filters and update the charts
+      // Example: barChart.data.datasets[0].data = newIncomeData; barChart.update();
+      
+      alert("Filters applied. (Demo: See console for values)");
+    }
+  </script>
+
+  <style>
+    /* GLOBAL RESET & BODY */
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #ffffff;
+      color: #333;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      background-color: #1a1f7b;
+      min-height: 100vh;
+      width: 200px;
+      position: fixed;
+      left: 0;
+      top: 0;
+      padding: 1.5rem 1rem;
+      color: #fff;
+    }
+    .sidebar .logo { font-size: 1.4rem; font-weight: bold; margin-bottom: 2rem; text-align: center; }
+    .sidebar ul { list-style-type: none; padding: 0; }
+    .sidebar ul li { margin-bottom: 1rem; }
+    .sidebar ul li a {
+      display: block; color: #fff; text-decoration: none; padding: 0.5rem; border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+    .sidebar ul li a:hover, .sidebar ul li a.active { background-color: #2b348c; font-weight: 600; }
+
+    /* MAIN CONTENT */
+    .main-content {
+      margin-left: 200px;
+      padding: 1.5rem;
+    }
+    .page-header { margin-bottom: 1.5rem; }
+    .page-header h1 { font-size: 1.6rem; font-weight: 600; color: #1a1f7b; margin-bottom: 0.5rem; }
+    .page-header p { margin-bottom: 0; color: #666; }
+
+    /* FILTER SECTION */
+    .filter-section {
+      background-color: #f5f7ff;
+      border: 1px solid #e2e2e2;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .filter-section .form-group { margin-right: 1rem; }
+    
+    /* STATS SECTION */
+    .stats-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .stat-card {
+      background-color: #f5f7ff;
+      border: 1px solid #e2e2e2;
+      border-radius: 8px;
+      padding: 1rem;
+      flex: 1;
+      min-width: 220px;
+      text-align: center;
+    }
+    .stat-card h3 { font-size: 1.3rem; margin-bottom: 0.5rem; color: #1a1f7b; }
+    .stat-card span { font-size: 1rem; color: #666; }
+
+    /* CHART CARDS */
+    .card {
+      background-color: #ffffff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+    }
+    .card h5 { margin-bottom: 1rem; font-weight: 600; font-size: 1.1rem; color: #1a1f7b; }
+
+    /* RESPONSIVE LAYOUT */
+    @media (max-width: 992px) {
+      .sidebar { position: static; width: 100%; min-height: auto; border-bottom: 1px solid #ddd; }
+      .main-content { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="logo">PFM</div>
+    <ul>
+      <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="transactions.html"><i class="fas fa-exchange-alt"></i> Transactions</a></li>
+      <li><a href="analytics.html" class="active"><i class="fas fa-chart-line"></i> Analytics</a></li>
+      <li><a href="wallet.html"><i class="fas fa-wallet"></i> My Wallet</a></li>
+      <li><a href="user.html"><i class="fas fa-user"></i> User</a></li>
+      <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+      <li><a href="faqs.html"><i class="fas fa-question-circle"></i> FAQs</a></li>
+      <li><a href="logout.html"><i class="fas fa-sign-out-alt"></i> Log Out</a></li>
+    </ul>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+      <h1>Analytics</h1>
+      <p>Analyze your financial data, track trends, and gain insights.</p>
+    </div>
+    
+    <!-- FILTER SECTION -->
+    <div class="filter-section mb-4">
+      <form class="form-inline">
+        <div class="form-group mb-2">
+          <label for="startDate" class="mr-2">Start Date:</label>
+          <input type="date" class="form-control" id="startDate" />
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+          <label for="endDate" class="mr-2">End Date:</label>
+          <input type="date" class="form-control" id="endDate" />
+        </div>
+        <div class="form-group mb-2">
+          <label for="categorySelect" class="mr-2">Category:</label>
+          <select class="form-control" id="categorySelect">
+            <option value="All">All</option>
+            <option value="Income">Income</option>
+            <option value="Expense">Expense</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-primary mb-2 ml-2" id="refreshBtn">
+          Refresh
+        </button>
+      </form>
+    </div>
+
+    <!-- TOP STATS SECTION -->
+    <div class="stats-section">
+      <div class="stat-card">
+        <h3>15,00,000 Rs</h3>
+        <span>Total Income</span>
+      </div>
+      <div class="stat-card">
+        <h3>2,21,500 Rs</h3>
+        <span>Total Expense</span>
+      </div>
+      <div class="stat-card">
+        <h3>-12,78,500 Rs</h3>
+        <span>Spending</span>
+      </div>
+      <div class="stat-card">
+        <h3>1,00,000 Rs</h3>
+        <span>Savings</span>
+      </div>
+    </div>
+
+    <!-- CHARTS SECTION -->
+    <div class="row">
+      <!-- Bar Chart Card -->
+      <div class="col-md-6">
+        <div class="card">
+          <h5>Income vs. Expense (Monthly)</h5>
+          <canvas id="barChart" height="200"></canvas>
+        </div>
+      </div>
+      <!-- Line Chart Card -->
+      <div class="col-md-6">
+        <div class="card">
+          <h5>Earnings Trend</h5>
+          <canvas id="lineChart" height="200"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- Doughnut Chart Card -->
+      <div class="col-md-6">
+        <div class="card">
+          <h5>Spending Breakdown</h5>
+          <canvas id="doughnutChart" height="200"></canvas>
+        </div>
+      </div>
+      <!-- Horizontal Bar Chart Card -->
+      <div class="col-md-6">
+        <div class="card">
+          <h5>Category Spend (Horizontal)</h5>
+          <canvas id="horizontalBarChart" height="200"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS (Popper + Bootstrap) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
+</body>
+</html>

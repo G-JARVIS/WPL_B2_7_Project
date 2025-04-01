@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PFM - Wallet</title>
+  
+  <!-- Bootstrap 4 CSS (CDN) -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <!-- Font Awesome (for icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+  <!-- Chart.js (for insights chart) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js" defer></script>
+  
+  <style>
+    /* GLOBAL RESET & BODY */
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #ffffff;
+      color: #333;
+    }
+    
+    /* LEFT SIDEBAR */
+    .sidebar {
+      background-color: #1a1f7b;
+      min-height: 100vh;
+      width: 200px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 1.5rem 1rem;
+      color: #fff;
+    }
+    .sidebar .logo {
+      font-size: 1.4rem;
+      font-weight: bold;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .sidebar ul { list-style: none; padding: 0; }
+    .sidebar ul li { margin-bottom: 1rem; }
+    .sidebar ul li a {
+      display: block;
+      color: #fff;
+      text-decoration: none;
+      padding: 0.5rem;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+    .sidebar ul li a:hover,
+    .sidebar ul li a.active {
+      background-color: #2b348c;
+      font-weight: 600;
+    }
+    
+    /* RIGHT SIDEBAR (Notifications) */
+    .right-sidebar {
+      background-color: #f9f9f9;
+      min-height: 100vh;
+      padding: 1.5rem;
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 250px;
+      border-left: 1px solid #ddd;
+    }
+    .right-sidebar h4 {
+      margin-bottom: 1rem;
+      font-weight: bold;
+      color: #1a1f7b;
+    }
+    .notification {
+      background-color: #ffffff;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+    .notification .notification-icon {
+      margin-right: 0.5rem;
+    }
+    
+    /* MAIN CONTENT */
+    .main-content {
+      padding: 1.5rem;
+    }
+    /* Override the Bootstrap container for main-content on larger screens */
+    @media (min-width: 993px) {
+      .main-content.container {
+        margin-left: 200px;    /* space for left sidebar */
+        margin-right: 250px;   /* space for right sidebar */
+        /* Ensure the width does not exceed available space */
+        max-width: calc(100% - 450px);
+      }
+    }
+    
+    /* Section Headers */
+    .section-header {
+      color: #1a1f7b;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+    
+    /* Wallet Selection View */
+    .wallet-selection {
+      margin-bottom: 2rem;
+    }
+    .wallet-card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background-color: #f5f7ff;
+      padding: 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .wallet-card:hover { transform: scale(1.02); }
+    .wallet-card h5 { color: #1a1f7b; font-weight: 600; }
+    
+    /* Wallet Detail View */
+    .back-button { margin-bottom: 1rem; }
+    .balance-card {
+      background-color: #f5f7ff;
+      border: 1px solid #e2e2e2;
+      border-radius: 8px;
+      padding: 1.5rem;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .balance-card h2 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      color: #1a1f7b;
+    }
+    .balance-card p { font-size: 1.1rem; color: #666; }
+    
+    .card.funds-actions { margin-bottom: 2rem; }
+    .goal-card { margin-bottom: 1rem; }
+    .insights-card { margin-bottom: 2rem; }
+    
+    /* Responsive Layout: On smaller screens, let elements stack naturally */
+    @media (max-width: 992px) {
+      .sidebar, .right-sidebar {
+        position: static;
+        width: 100%;
+        min-height: auto;
+        border: none;
+      }
+      .main-content { margin: 0; max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <!-- LEFT SIDEBAR -->
+  <div class="sidebar">
+    <div class="logo">PFM</div>
+    <ul>
+      <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="transactions.html"><i class="fas fa-exchange-alt"></i> Transactions</a></li>
+      <li><a href="analytics.html"><i class="fas fa-chart-line"></i> Analytics</a></li>
+      <li><a href="wallet.html" class="active"><i class="fas fa-wallet"></i> My Wallet</a></li>
+      <li><a href="user.html"><i class="fas fa-user"></i> User</a></li>
+      <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+      <li><a href="faqs.html"><i class="fas fa-question-circle"></i> FAQs</a></li>
+      <li><a href="logout.html"><i class="fas fa-sign-out-alt"></i> Log Out</a></li>
+    </ul>
+  </div>
+  
+  <!-- RIGHT SIDEBAR (Notifications) -->
+  <div class="right-sidebar">
+    <h4>Notifications</h4>
+    <div class="notification">
+      <i class="fas fa-exclamation-triangle text-warning notification-icon"></i>
+      Low Balance Alert: Deposit funds soon.
+    </div>
+    <div class="notification">
+      <i class="fas fa-check-circle text-success notification-icon"></i>
+      Payment Received: Rs. 5,000 credited.
+    </div>
+    <div class="notification">
+      <i class="fas fa-info-circle text-info notification-icon"></i>
+      Budget Notice: Food budget at 75%.
+    </div>
+  </div>
+  
+  <!-- MAIN CONTENT -->
+  <div class="main-content container">
+    <!-- WALLET SELECTION VIEW -->
+    <div id="walletSelectionView" class="wallet-selection">
+      <h2 class="section-header">Your Wallets</h2>
+      <div class="row">
+        <!-- Example Wallet Cards for Family Members -->
+        <div class="col-md-4 mb-3">
+          <div class="wallet-card" onclick="selectWallet('Father')">
+            <h5>Father</h5>
+            <p>Balance: Rs. 60,000</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="wallet-card" onclick="selectWallet('Mother')">
+            <h5>Mother</h5>
+            <p>Balance: Rs. 40,000</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="wallet-card" onclick="selectWallet('Child 1')">
+            <h5>Child 1</h5>
+            <p>Balance: Rs. 10,000</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="wallet-card" onclick="selectWallet('Child 2')">
+            <h5>Child 2</h5>
+            <p>Balance: Rs. 8,000</p>
+          </div>
+        </div>
+        <!-- Card for Creating a New Wallet -->
+        <div class="col-md-4 mb-3">
+          <div class="wallet-card" onclick="createNewWallet()">
+            <h5><i class="fas fa-plus-circle"></i> New Wallet</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- WALLET DETAIL VIEW (Hidden by default) -->
+    <div id="walletDetailView" style="display: none;">
+      <button class="btn btn-secondary back-button" onclick="backToWalletSelection()">
+        <i class="fas fa-arrow-left"></i> Back to Wallets
+      </button>
+      
+      <!-- Display selected wallet name -->
+      <h2 class="section-header" id="selectedWalletName">Wallet Details</h2>
+      
+      <!-- Wallet Balance Overview -->
+      <div class="balance-card">
+        <h2 id="walletBalance">Rs. 0</h2>
+        <p>Current Wallet Balance</p>
+      </div>
+      
+      <!-- Add/Withdraw Funds -->
+      <div class="card funds-actions">
+        <div class="card-header">Manage Funds</div>
+        <div class="card-body">
+          <div class="row">
+            <!-- Deposit Funds -->
+            <div class="col-md-6 mb-3">
+              <h5><i class="fas fa-arrow-down text-success"></i> Deposit Funds</h5>
+              <form id="depositForm" onsubmit="return false;">
+                <div class="form-group">
+                  <label for="depositAmount">Amount (Rs):</label>
+                  <input type="number" class="form-control" id="depositAmount" placeholder="Enter amount" required>
+                </div>
+                <button type="submit" class="btn btn-success" onclick="depositFunds()">Deposit</button>
+              </form>
+            </div>
+            <!-- Withdraw Funds -->
+            <div class="col-md-6 mb-3">
+              <h5><i class="fas fa-arrow-up text-danger"></i> Withdraw Funds</h5>
+              <form id="withdrawForm" onsubmit="return false;">
+                <div class="form-group">
+                  <label for="withdrawAmount">Amount (Rs):</label>
+                  <input type="number" class="form-control" id="withdrawAmount" placeholder="Enter amount" required>
+                </div>
+                <button type="submit" class="btn btn-danger" onclick="withdrawFunds()">Withdraw</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Budget & Savings Goals -->
+      <div class="card mb-4">
+        <div class="card-header">Budget & Savings Goals</div>
+        <div class="card-body">
+          <!-- Savings Goal -->
+          <div class="goal-card">
+            <h6>Savings Goal (Rs. 1,00,000)</h6>
+            <div class="progress">
+              <div class="progress-bar bg-info" role="progressbar" style="width: 50%;" aria-valuenow="50000" aria-valuemin="0" aria-valuemax="100000">
+                50%
+              </div>
+            </div>
+          </div>
+          <!-- Food Budget -->
+          <div class="goal-card">
+            <h6>Food Budget (Rs. 20,000)</h6>
+            <div class="progress">
+              <div class="progress-bar bg-warning" role="progressbar" style="width: 75%;" aria-valuenow="15000" aria-valuemin="0" aria-valuemax="20000">
+                75%
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Financial Insights (Chart) -->
+      <div class="card insights-card mb-4">
+        <div class="card-header">Wallet Balance Over Time</div>
+        <div class="card-body">
+          <canvas id="walletChart" height="200"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Bootstrap JS (jQuery, Popper.js, Bootstrap JS) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
+  
+  <!-- Custom JavaScript for Demo Functionality -->
+  <script>
+    // Simulated wallet data for family members
+    const wallets = {
+      "Father": { balance: 60000 },
+      "Mother": { balance: 40000 },
+      "Child 1": { balance: 10000 },
+      "Child 2": { balance: 8000 }
+    };
+    
+    function selectWallet(walletName) {
+      // Hide wallet selection view, show wallet detail view
+      document.getElementById("walletSelectionView").style.display = "none";
+      document.getElementById("walletDetailView").style.display = "block";
+      document.getElementById("selectedWalletName").textContent = walletName + " Wallet Details";
+      
+      // Update wallet balance based on selected wallet (demo data)
+      const balance = wallets[walletName] ? wallets[walletName].balance : 0;
+      document.getElementById("walletBalance").textContent = "Rs. " + balance;
+    }
+    
+    function backToWalletSelection() {
+      document.getElementById("walletSelectionView").style.display = "block";
+      document.getElementById("walletDetailView").style.display = "none";
+    }
+    
+    function createNewWallet() {
+      alert("Create New Wallet functionality is not implemented in this demo.");
+    }
+    
+    function depositFunds() {
+      const amount = parseInt(document.getElementById("depositAmount").value);
+      const walletName = document.getElementById("selectedWalletName").textContent.split(" ")[0];
+      if (wallets[walletName] !== undefined) {
+        wallets[walletName].balance += amount;
+        document.getElementById("walletBalance").textContent = "Rs. " + wallets[walletName].balance;
+        alert("Deposited Rs. " + amount + " into " + walletName + "'s wallet.");
+      }
+    }
+    
+    function withdrawFunds() {
+      const amount = parseInt(document.getElementById("withdrawAmount").value);
+      const walletName = document.getElementById("selectedWalletName").textContent.split(" ")[0];
+      if (wallets[walletName] !== undefined) {
+        if(wallets[walletName].balance >= amount){
+          wallets[walletName].balance -= amount;
+          document.getElementById("walletBalance").textContent = "Rs. " + wallets[walletName].balance;
+          alert("Withdrew Rs. " + amount + " from " + walletName + "'s wallet.");
+        } else {
+          alert("Insufficient balance in " + walletName + "'s wallet.");
+        }
+      }
+    }
+    
+    // Financial Insights Chart (Wallet Balance Over Time)
+    document.addEventListener("DOMContentLoaded", function () {
+      const ctxWallet = document.getElementById("walletChart").getContext("2d");
+      new Chart(ctxWallet, {
+        type: "line",
+        data: {
+          labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
+          datasets: [{
+            label: "Balance (Rs)",
+            data: [50000, 55000, 53000, 54000],
+            borderColor: "#2196F3",
+            backgroundColor: "rgba(33,150,243,0.2)",
+            tension: 0.1,
+            fill: true,
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: { y: { beginAtZero: false } }
+        }
+      });
+    });
+  </script>
+</body>
+</html>

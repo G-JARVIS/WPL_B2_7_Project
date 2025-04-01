@@ -1,0 +1,241 @@
+/* GLOBAL STYLES */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
+/* 1. LOGIN PAGE STYLES */
+.login-body {
+  background: #0a0f3b; /* Dark Blue background */
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  background: url("assets/images/login_bg.jpg") no-repeat center center/cover;
+  
+}
+
+.login-container {
+  text-align: center;
+}
+
+.login-title {
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  font-weight: 600;
+}
+
+.login-box {
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  padding: 2rem;
+  width: 300px;
+  margin: 0 auto;
+}
+
+.login-box h2 {
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.login-box label {
+  display: block;
+  text-align: left;
+  margin: 0.5rem 0 0.3rem;
+  font-weight: 600;
+}
+
+.login-box input[type="email"],
+.login-box input[type="password"] {
+  width: 100%;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.login-box input:focus {
+  outline: none;
+  border: 2px solid #1af5ff;
+}
+
+.login-extra {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.forgot-link {
+  color: #fff;
+  text-decoration: none;
+  opacity: 0.8;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
+  opacity: 1;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #1af5ff;
+  color: #000;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.login-btn:hover {
+  background-color: #16c3cc;
+}
+
+/* 2. DASHBOARD PAGE STYLES */
+.dashboard-body {
+  display: flex;
+  margin: 0;
+  background-color: #0a0f3b; /* Keep the dark blue theme */
+  color: #fff;
+  min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 200px;
+  background-color: #00225c; /* Slightly different blue for contrast */
+  padding: 1rem 0;
+  position: fixed; /* Keep it fixed */
+  top: 0;
+  left: 0;
+  height: 100%;
+}
+
+.sidebar-title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+.sidebar ul {
+  list-style-type: none;
+}
+
+.sidebar ul li a {
+  display: block;
+  padding: 0.8rem 1rem;
+  color: #fff;
+  text-decoration: none;
+  border-left: 4px solid transparent;
+  transition: background-color 0.3s, border-left 0.3s;
+}
+
+.sidebar ul li a:hover {
+  background-color: #0f0f3b;
+  border-left: 4px solid #1af5ff;
+}
+
+.sidebar ul li a.active {
+  background-color: #0f0f3b;
+  border-left: 4px solid #1af5ff;
+}
+
+/* MAIN CONTENT */
+.main-content {
+  margin-left: 200px; /* same width as sidebar */
+  padding: 2rem;
+  flex: 1;
+}
+
+.main-header {
+  margin-bottom: 2rem;
+}
+
+.main-header h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* CARDS SECTION */
+.cards-section {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.card {
+  background-color: #00194b; 
+  border-radius: 8px;
+  padding: 1.5rem;
+  flex: 1;
+  text-align: center;
+}
+
+.card h3 {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.card p {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+/* DATE PICKER SECTION */
+.date-picker-section {
+  background-color: #00194b;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  max-width: 600px;
+}
+
+.date-picker-section h2 {
+  margin-bottom: 1rem;
+}
+
+.date-picker-section form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.date-picker-section label {
+  flex: 1 0 100%;
+  font-weight: 600;
+}
+
+.date-picker-section input[type="date"],
+.date-picker-section input[type="number"],
+.date-picker-section select {
+  width: 100%;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.date-picker-section button {
+  padding: 0.6rem 1rem;
+  background-color: #1af5ff;
+  border: none;
+  border-radius: 4px;
+  color: #000;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.date-picker-section button:hover {
+  background-color: #16c3cc;
+}
