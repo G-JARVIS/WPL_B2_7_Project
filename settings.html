@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PFM - Settings</title>
+  
+  <!-- Bootstrap 4 CSS (CDN) -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <!-- Font Awesome (for icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+  
+  <style>
+    /* GLOBAL RESET & BODY */
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #ffffff;
+      color: #333;
+    }
+    
+    /* LEFT SIDEBAR */
+    .sidebar {
+      background-color: #1a1f7b;
+      min-height: 100vh;
+      width: 200px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 1.5rem 1rem;
+      color: #fff;
+    }
+    .sidebar .logo {
+      font-size: 1.4rem;
+      font-weight: bold;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .sidebar ul { list-style: none; padding: 0; }
+    .sidebar ul li { margin-bottom: 1rem; }
+    .sidebar ul li a {
+      display: block;
+      color: #fff;
+      text-decoration: none;
+      padding: 0.5rem;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+    .sidebar ul li a:hover,
+    .sidebar ul li a.active {
+      background-color: #2b348c;
+      font-weight: 600;
+    }
+    
+    /* MAIN CONTENT */
+    .main-content {
+      margin-left: 200px; /* space for sidebar */
+      padding: 1.5rem;
+    }
+    
+    .section-header {
+      color: #1a1f7b;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+    
+    /* Accordion Panel Styling */
+    .card-header {
+      background-color: #f5f7ff;
+      color: #1a1f7b;
+      font-weight: 600;
+    }
+    .accordion .card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+    .form-group label {
+      font-weight: 600;
+      color: #1a1f7b;
+    }
+    
+    @media (max-width: 992px) {
+      .sidebar { position: static; width: 100%; min-height: auto; border-bottom: 1px solid #ddd; }
+      .main-content { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- LEFT SIDEBAR -->
+  <div class="sidebar">
+    <div class="logo">PFM</div>
+    <ul>
+      <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="transactions.html"><i class="fas fa-exchange-alt"></i> Transactions</a></li>
+      <li><a href="analytics.html"><i class="fas fa-chart-line"></i> Analytics</a></li>
+      <li><a href="wallet.html"><i class="fas fa-wallet"></i> My Wallet</a></li>
+      <li><a href="user.html"><i class="fas fa-user"></i> User</a></li>
+      <li><a href="settings.html" class="active"><i class="fas fa-cog"></i> Settings</a></li>
+      <li><a href="faqs.html"><i class="fas fa-question-circle"></i> FAQs</a></li>
+      <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Log Out</a></li>
+
+    </ul>
+  </div>
+  
+  <!-- MAIN CONTENT -->
+  <div class="main-content container">
+    <h1 class="section-header">Settings</h1>
+    
+    <!-- Accordion for Settings -->
+    <div id="settingsAccordion">
+      <!-- Account Settings Panel -->
+      <div class="card">
+        <div class="card-header" id="headingAccount">
+          <h5 class="mb-0">
+            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseAccount" aria-expanded="true" aria-controls="collapseAccount">
+              Account Settings
+            </button>
+          </h5>
+        </div>
+        <div id="collapseAccount" class="collapse show" aria-labelledby="headingAccount" data-parent="#settingsAccordion">
+          <div class="card-body">
+            <!-- Change Password -->
+            <h6>Change Password</h6>
+            <form>
+              <div class="form-group">
+                <label for="currentPassword">Current Password</label>
+                <input type="password" class="form-control" id="currentPassword" placeholder="Enter current password">
+              </div>
+              <div class="form-group">
+                <label for="newPassword">New Password</label>
+                <input type="password" class="form-control" id="newPassword" placeholder="Enter new password">
+              </div>
+              <div class="form-group">
+                <label for="confirmPassword">Confirm New Password</label>
+                <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm new password">
+              </div>
+              <button type="submit" class="btn btn-primary">Update Password</button>
+            </form>
+            <hr>
+            <!-- Manage Email Preferences -->
+            <h6>Email Preferences</h6>
+            <form>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="notifEmails" checked>
+                <label class="form-check-label" for="notifEmails">
+                  Receive Notification Emails
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="newsletter" checked>
+                <label class="form-check-label" for="newsletter">
+                  Subscribe to Newsletters
+                </label>
+              </div>
+              <button type="submit" class="btn btn-primary mt-2">Save Email Preferences</button>
+            </form>
+            <hr>
+            <!-- Update Personal Information -->
+            <h6>Personal Information</h6>
+            <form>
+              <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" class="form-control" id="fullName" value="John Doe">
+              </div>
+              <div class="form-group">
+                <label for="userPhone">Phone</label>
+                <input type="text" class="form-control" id="userPhone" value="+91-9876543210">
+              </div>
+              <div class="form-group">
+                <label for="userAddress">Address</label>
+                <input type="text" class="form-control" id="userAddress" value="123 Main Street, City">
+              </div>
+              <button type="submit" class="btn btn-primary">Update Information</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Financial Preferences Panel -->
+      <div class="card">
+        <div class="card-header" id="headingFinancial">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFinancial" aria-expanded="false" aria-controls="collapseFinancial">
+              Financial Preferences
+            </button>
+          </h5>
+        </div>
+        <div id="collapseFinancial" class="collapse" aria-labelledby="headingFinancial" data-parent="#settingsAccordion">
+          <div class="card-body">
+            <form>
+              <div class="form-group">
+                <label for="defaultCurrency">Default Currency</label>
+                <select class="form-control" id="defaultCurrency">
+                  <option value="INR" selected>INR (₹)</option>
+                  <option value="USD">USD ($)</option>
+                  <option value="EUR">EUR (€)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="numberFormat">Number Format</label>
+                <input type="text" class="form-control" id="numberFormat" value="1,00,000.00">
+              </div>
+              <div class="form-group">
+                <label for="monthlyBudget">Monthly Budget Limit (Rs)</label>
+                <input type="number" class="form-control" id="monthlyBudget" placeholder="Enter monthly budget limit">
+              </div>
+              <div class="form-group">
+                <label for="lowBalanceAlert">Low Balance Alert Threshold (Rs)</label>
+                <input type="number" class="form-control" id="lowBalanceAlert" placeholder="Enter threshold value">
+              </div>
+              <button type="submit" class="btn btn-primary">Save Financial Preferences</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Notification Settings Panel -->
+      <div class="card">
+        <div class="card-header" id="headingNotifications">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseNotifications" aria-expanded="false" aria-controls="collapseNotifications">
+              Notification Settings
+            </button>
+          </h5>
+        </div>
+        <div id="collapseNotifications" class="collapse" aria-labelledby="headingNotifications" data-parent="#settingsAccordion">
+          <div class="card-body">
+            <form>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="depositNotif" checked>
+                <label class="form-check-label" for="depositNotif">
+                  Deposit Alerts
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="budgetNotif" checked>
+                <label class="form-check-label" for="budgetNotif">
+                  Budget Alerts
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="lowBalanceNotif">
+                <label class="form-check-label" for="lowBalanceNotif">
+                  Low Balance Alerts
+                </label>
+              </div>
+              <div class="form-group mt-3">
+                <label for="alertThreshold">Alert Threshold (Rs)</label>
+                <input type="number" class="form-control" id="alertThreshold" placeholder="Enter threshold value">
+              </div>
+              <button type="submit" class="btn btn-primary">Save Notification Settings</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Privacy & Security Options Panel -->
+      <div class="card">
+        <div class="card-header" id="headingPrivacy">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapsePrivacy" aria-expanded="false" aria-controls="collapsePrivacy">
+              Privacy &amp; Security Options
+            </button>
+          </h5>
+        </div>
+        <div id="collapsePrivacy" class="collapse" aria-labelledby="headingPrivacy" data-parent="#settingsAccordion">
+          <div class="card-body">
+            <form>
+              <div class="form-group">
+                <label for="twoFactorAuth">Two-Factor Authentication (2FA)</label>
+                <select class="form-control" id="twoFactorAuth">
+                  <option value="enabled" selected>Enabled</option>
+                  <option value="disabled">Disabled</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="connectedDevices">Manage Connected Devices</label>
+                <input type="text" class="form-control" id="connectedDevices" placeholder="View active sessions/devices" disabled>
+              </div>
+              <button type="submit" class="btn btn-primary">Save Privacy Settings</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Integration & Linked Accounts Panel -->
+      <div class="card">
+        <div class="card-header" id="headingIntegration">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseIntegration" aria-expanded="false" aria-controls="collapseIntegration">
+              Integration &amp; Linked Accounts
+            </button>
+          </h5>
+        </div>
+        <div id="collapseIntegration" class="collapse" aria-labelledby="headingIntegration" data-parent="#settingsAccordion">
+          <div class="card-body">
+            <form>
+              <div class="form-group">
+                <label for="bankIntegration">Bank Integration</label>
+                <input type="text" class="form-control" id="bankIntegration" placeholder="Link your bank account">
+              </div>
+              <div class="form-group">
+                <label for="cardIntegration">Credit/Debit Card</label>
+                <input type="text" class="form-control" id="cardIntegration" placeholder="Link your card">
+              </div>
+              <button type="submit" class="btn btn-primary">Save Integration Settings</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Notification Frequency Panel -->
+      <div class="card">
+        <div class="card-header" id="headingFrequency">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFrequency" aria-expanded="false" aria-controls="collapseFrequency">
+              Notification Frequency
+            </button>
+          </h5>
+        </div>
+        <div id="collapseFrequency" class="collapse" aria-labelledby="headingFrequency" data-parent="#settingsAccordion">
+          <div class="card-body">
+            <form>
+              <div class="form-group">
+                <label for="notifFrequency">How often would you like to receive notifications?</label>
+                <select class="form-control" id="notifFrequency">
+                  <option value="realtime" selected>Real-Time</option>
+                  <option value="daily">Daily Summary</option>
+                  <option value="weekly">Weekly Summary</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary">Save Frequency Settings</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+    </div> <!-- End Accordion -->
+    
+  </div> <!-- End Main Content -->
+  
+  <!-- Bootstrap JS (jQuery, Popper.js, Bootstrap JS) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
+</body>
+</html>

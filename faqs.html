@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PFM - FAQ</title>
+  
+  <!-- Bootstrap 4 CSS (CDN) -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <!-- Font Awesome (for icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+  
+  <style>
+    /* GLOBAL RESET & BODY */
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #ffffff;
+      color: #333;
+      padding: 1.5rem;
+    }
+    
+    /* LEFT SIDEBAR */
+    .sidebar {
+      background-color: #1a1f7b;
+      min-height: 100vh;
+      width: 200px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 1.5rem 1rem;
+      color: #fff;
+    }
+    .sidebar .logo {
+      font-size: 1.4rem;
+      font-weight: bold;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .sidebar ul { list-style: none; padding: 0; }
+    .sidebar ul li { margin-bottom: 1rem; }
+    .sidebar ul li a {
+      display: block;
+      color: #fff;
+      text-decoration: none;
+      padding: 0.5rem;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+    .sidebar ul li a:hover,
+    .sidebar ul li a.active {
+      background-color: #2b348c;
+      font-weight: 600;
+    }
+    
+    /* MAIN CONTENT */
+    .main-content {
+      margin-left: 200px; /* leave space for sidebar */
+      padding: 1.5rem;
+    }
+    
+    .section-header {
+      color: #1a1f7b;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+      text-align: center;
+    }
+    
+    /* FAQ Accordion Styling */
+    .card-header {
+      background-color: #f5f7ff;
+      color: #1a1f7b;
+      font-weight: 600;
+    }
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+    
+    @media (max-width: 992px) {
+      .sidebar { position: static; width: 100%; min-height: auto; border-bottom: 1px solid #ddd; }
+      .main-content { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- LEFT SIDEBAR -->
+  <div class="sidebar">
+    <div class="logo">PFM</div>
+    <ul>
+      <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="transactions.html"><i class="fas fa-exchange-alt"></i> Transactions</a></li>
+      <li><a href="analytics.html"><i class="fas fa-chart-line"></i> Analytics</a></li>
+      <li><a href="wallet.html"><i class="fas fa-wallet"></i> My Wallet</a></li>
+      <li><a href="user.html"><i class="fas fa-user"></i> User</a></li>
+      <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+      <li><a href="faqs.html" class="active"><i class="fas fa-question-circle"></i> FAQs</a></li>
+      <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Log Out</a></li>
+
+    </ul>
+  </div>
+  
+  <!-- MAIN CONTENT -->
+  <div class="main-content container">
+    <h1 class="section-header">Frequently Asked Questions</h1>
+    
+    <!-- FAQ Accordion -->
+    <div id="faqAccordion">
+      <!-- FAQ Item 1 -->
+      <div class="card">
+        <div class="card-header" id="faqHeadingOne">
+          <h5 class="mb-0">
+            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+              What is PFM and how can it help me manage my finances?
+            </button>
+          </h5>
+        </div>
+        <div id="faqCollapseOne" class="collapse show" aria-labelledby="faqHeadingOne" data-parent="#faqAccordion">
+          <div class="card-body">
+            PFM is a Personal Finance Manager designed to help you track your income, expenses, and budgets in one place. It provides detailed analytics and insights so you can make informed financial decisions.
+          </div>
+        </div>
+      </div>
+      
+      <!-- FAQ Item 2 -->
+      <div class="card">
+        <div class="card-header" id="faqHeadingTwo">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+              How do I create or manage multiple wallets?
+            </button>
+          </h5>
+        </div>
+        <div id="faqCollapseTwo" class="collapse" aria-labelledby="faqHeadingTwo" data-parent="#faqAccordion">
+          <div class="card-body">
+            Once logged in, you can create and manage multiple wallets through the My Wallet section. For example, you can manage separate wallets for different family members, each with its own balance and transaction history.
+          </div>
+        </div>
+      </div>
+      
+      <!-- FAQ Item 3 -->
+      <div class="card">
+        <div class="card-header" id="faqHeadingThree">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#faqCollapseThree" aria-expanded="false" aria-controls="faqCollapseThree">
+              How do I update my personal or financial preferences?
+            </button>
+          </h5>
+        </div>
+        <div id="faqCollapseThree" class="collapse" aria-labelledby="faqHeadingThree" data-parent="#faqAccordion">
+          <div class="card-body">
+            You can update your personal and financial preferences from the Settings page. Options include changing your password, setting your default currency, and defining spending limits.
+          </div>
+        </div>
+      </div>
+      
+      <!-- FAQ Item 4 -->
+      <div class="card">
+        <div class="card-header" id="faqHeadingFour">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#faqCollapseFour" aria-expanded="false" aria-controls="faqCollapseFour">
+              How secure is my data on PFM?
+            </button>
+          </h5>
+        </div>
+        <div id="faqCollapseFour" class="collapse" aria-labelledby="faqHeadingFour" data-parent="#faqAccordion">
+          <div class="card-body">
+            We use industry-standard encryption and security measures to protect your data. Additionally, you have options like Two-Factor Authentication (2FA) to further secure your account.
+          </div>
+        </div>
+      </div>
+      
+      <!-- FAQ Item 5 -->
+      <div class="card">
+        <div class="card-header" id="faqHeadingFive">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#faqCollapseFive" aria-expanded="false" aria-controls="faqCollapseFive">
+              How often will I receive notifications?
+            </button>
+          </h5>
+        </div>
+        <div id="faqCollapseFive" class="collapse" aria-labelledby="faqHeadingFive" data-parent="#faqAccordion">
+          <div class="card-body">
+            Notification frequency can be customized from the Settings page. You can choose to receive notifications in real-time, as daily summaries, or as weekly summaries.
+          </div>
+        </div>
+      </div>
+      
+      <!-- More FAQ Items can be added here -->
+    </div>
+  </div>
+  
+  <!-- Bootstrap JS (jQuery, Popper.js, Bootstrap JS) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
+</body>
+</html>
