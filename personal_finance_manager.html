@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Finance Manager</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            margin: 0;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .card h2 {
+            margin-top: 0;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        form {
+            display: grid;
+            gap: 10px;
+        }
+        
+        input, select, button {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+        }
+        
+        .expense {
+            color: #e74c3c;
+        }
+        
+        .income {
+            color: #2ecc71;
+        }
+        
+        .summary-section {
+            margin-top: 20px;
+        }
+        
+        .chart-container {
+            height: 300px;
+            margin-top: 20px;
+        }
+        
+        .filter-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .filter-section select, .filter-section button {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Personal Finance Manager</h1>
+    </header>
+    
+    <div class="container">
+        <div class="dashboard">
+            <div class="card">
+                <h2>Add Transaction</h2>
+                <form id="transaction-form">
+                    <input type="text" id="description" placeholder="Description" required>
+                    <input type="number" id="amount" placeholder="Amount" step="0.01" required>
+                    <select id="type" required>
+                        <option value="">Select Type</option>
+                        <option value="expense">Expense</option>
+                        <option value="income">Income</option>
+                        <option value="salary">Salary</option>
+                    </select>
+                    <select id="category" required>
+                        <option value="">Select Category</option>
+                        <option value="food">Food</option>
+                        <option value="utilities">Utilities</option>
+                        <option value="entertainment">Entertainment</option>
+                        <option value="transportation">Transportation</option>
+                        <option value="health">Health</option>
+                        <option value="shopping">Shopping</option>
+                        <option value="housing">Housing</option>
+                        <option value="salary">Salary</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <input type="date" id="date" required>
+                    <button type="submit">Add Transaction</button>
+                </form>
+            </div>
+            
+            <div class="card">
+                <h2>Summary</h2>
+                <div id="summary-content">
+                    <div class="summary-item">
+                        <h3>Total Balance</h3>
+                        <p id="total-balance">$0.00</p>
+                    </div>
+                    <div class="summary-item">
+                        <h3>Total Income</h3>
+                        <p id="total-income">$0.00</p>
+                    </div>
+                    <div class="summary-item">
+                        <h3>Total Expenses</h3>
+                        <p id="total-expenses">$0.00</p>
+                    </div>
+                    <div class="summary-item">
+                        <h3>Salary</h3>
+                        <p id="total-salary">$0.00</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>Transactions</h2>
+            <div class="filter-section">
+                <select id="filter-category">
+                    <option value="">All Categories</option>
+                    <option value="food">Food</option>
+                    <option value="utilities">Utilities</option>
+                    <option value="entertainment">Entertainment</option>
+                    <option value="transportation">Transportation</option>
+                    <option value="health">Health</option>
+                    <option value="shopping">Shopping</option>
+                    <option value="housing">Housing</option>
+                    <option value="salary">Salary</option>
+                    <option value="other">Other</option>
+                </select>
+                <select id="filter-type">
+                    <option value="">All Types</option>
+                    <option value="expense">Expenses</option>
+                    <option value="income">Income</option>
+                    <option value="salary">Salary</option>
+                </select>
+                <input type="month" id="filter-month">
+                <button id="apply-filter">Apply Filter</button>
+                <button id="reset-filter">Reset</button>
+            </div>
+            <table id="transactions-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="transactions-body">
+                    <!-- Transactions will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script>
+        // In-memory storage for demo purposes - in real scenario, this would connect to backend
+        let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+        
+        // DOM Elements
+        const transactionForm = document.getElementById('transaction-form');
+        const transactionsBody = document.getElementById('transactions-body');
+        const totalBalance = document.getElementById('total-balance');
+        const totalIncome = document.getElementById('total-income');
+        const totalExpenses = document.getElementById('total-expenses');
+        const totalSalary = document.getElementById('total-salary');
+        const filterCategory = document.getElementById('filter-category');
+        const filterType = document.getElementById('filter-type');
+        const filterMonth = document.getElementById('filter-month');
+        const applyFilterBtn = document.getElementById('apply-filter');
+        const resetFilterBtn = document.getElementById('reset-filter');
+        
+        // Set today's date as default
+        document.getElementById('date').valueAsDate = new Date();
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            displayTransactions();
+            updateSummary();
+            
+            // Add event listener for form submission
+            transactionForm.addEventListener('submit', addTransaction);
+            
+            // Filter events
+            applyFilterBtn.addEventListener('click', displayTransactions);
+            resetFilterBtn.addEventListener('click', resetFilters);
+        });
+        
+        function addTransaction(e) {
+            e.preventDefault();
+            
+            const description = document.getElementById('description').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+            const type = document.getElementById('type').value;
+            const category = document.getElementById('category').value;
+            const date = document.getElementById('date').value;
+            
+            const transaction = {
+                id: Date.now(),
+                description,
+                amount,
+                type,
+                category,
+                date
+            };
+            
+            // In a real application, this would be an API call to the backend
+            transactions.push(transaction);
+            localStorage.setItem('transactions', JSON.stringify(transactions));
+            
+            // Reset form
+            transactionForm.reset();
+            document.getElementById('date').valueAsDate = new Date();
+            
+            // Update UI
+            displayTransactions();
+            updateSummary();
+        }
+        
+        function displayTransactions() {
+            let filteredTransactions = [...transactions];
+            
+            // Apply filters
+            const categoryFilter = filterCategory.value;
+            const typeFilter = filterType.value;
+            const monthFilter = filterMonth.value;
+            
+            if (categoryFilter) {
+                filteredTransactions = filteredTransactions.filter(t => t.category === categoryFilter);
+            }
+            
+            if (typeFilter) {
+                filteredTransactions = filteredTransactions.filter(t => t.type === typeFilter);
+            }
+            
+            if (monthFilter) {
+                filteredTransactions = filteredTransactions.filter(t => t.date.startsWith(monthFilter));
+            }
+            
+            // Sort by date (newest first)
+            filteredTransactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            // Clear current table
+            transactionsBody.innerHTML = '';
+            
+            if (filteredTransactions.length === 0) {
+                transactionsBody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center;">No transactions found</td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            // Add transactions to table
+            filteredTransactions.forEach(transaction => {
+                const row = document.createElement('tr');
+                
+                const amountClass = transaction.type === 'expense' ? 'expense' : 'income';
+                const amountSign = transaction.type === 'expense' ? '-' : '+';
+                
+                row.innerHTML = `
+                    <td>${formatDate(transaction.date)}</td>
+                    <td>${transaction.description}</td>
+                    <td>${capitalizeFirstLetter(transaction.category)}</td>
+                    <td>${capitalizeFirstLetter(transaction.type)}</td>
+                    <td class="${amountClass}">${amountSign}$${transaction.amount.toFixed(2)}</td>
+                    <td>
+                        <button onclick="deleteTransaction(${transaction.id})">Delete</button>
+                    </td>
+                `;
+                
+                transactionsBody.appendChild(row);
+            });
+        }
+        
+        function deleteTransaction(id) {
+            transactions = transactions.filter(transaction => transaction.id !== id);
+            localStorage.setItem('transactions', JSON.stringify(transactions));
+            
+            displayTransactions();
+            updateSummary();
+        }
+        
+        function updateSummary() {
+            const income = transactions
+                .filter(t => t.type === 'income')
+                .reduce((sum, transaction) => sum + transaction.amount, 0);
+                
+            const expenses = transactions
+                .filter(t => t.type === 'expense')
+                .reduce((sum, transaction) => sum + transaction.amount, 0);
+                
+            const salary = transactions
+                .filter(t => t.type === 'salary')
+                .reduce((sum, transaction) => sum + transaction.amount, 0);
+                
+            const balance = income + salary - expenses;
+            
+            totalIncome.textContent = `$${income.toFixed(2)}`;
+            totalExpenses.textContent = `$${expenses.toFixed(2)}`;
+            totalSalary.textContent = `$${salary.toFixed(2)}`;
+            totalBalance.textContent = `$${balance.toFixed(2)}`;
+            
+            // Set color for balance
+            if (balance < 0) {
+                totalBalance.className = 'expense';
+            } else {
+                totalBalance.className = 'income';
+            }
+        }
+        
+        function resetFilters() {
+            filterCategory.value = '';
+            filterType.value = '';
+            filterMonth.value = '';
+            displayTransactions();
+        }
+        
+        // Utility functions
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString();
+        }
+        
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+        
+        // PHP/SQL Integration (for demonstration purposes)
+        // In a real application, these functions would make AJAX calls to PHP endpoints
+        async function saveToDatabase() {
+            // This would be an API call in a real application
+            console.log('Saving transactions to database...');
+            
+            // Example fetch call to PHP backend
+            /* 
+            try {
+                const response = await fetch('save_transactions.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(transactions)
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    alert('Transactions saved to database!');
+                }
+            } catch (error) {
+                console.error('Error saving to database:', error);
+            }
+            */
+        }
+        
+        async function loadFromDatabase() {
+            // This would be an API call in a real application
+            console.log('Loading transactions from database...');
+            
+            /* 
+            try {
+                const response = await fetch('get_transactions.php');
+                const data = await response.json();
+                
+                if (data.transactions) {
+                    transactions = data.transactions;
+                    localStorage.setItem('transactions', JSON.stringify(transactions));
+                    displayTransactions();
+                    updateSummary();
+                }
+            } catch (error) {
+                console.error('Error loading from database:', error);
+            }
+            */
+        }
+    </script>
+</body>
+</html>

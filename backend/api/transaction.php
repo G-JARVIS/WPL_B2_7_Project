@@ -23,7 +23,8 @@ switch ($method) {
             $stmt = $pdo->prepare(
                 "SELECT * 
                  FROM transactions 
-                 WHERE wallet_id = ?"
+                 WHERE wallet_id = ?
+                 ORDER BY transaction_date DESC"
             );
             $stmt->execute([$wallet_id]);
         } else {
@@ -32,7 +33,8 @@ switch ($method) {
                 "SELECT t.* 
                  FROM transactions t
                  JOIN wallets w ON t.wallet_id = w.id
-                 WHERE w.user_id = ?"
+                 WHERE w.user_id = ?
+                 ORDER BY t.transaction_date DESC"
             );
             $stmt->execute([$user_id]);
         }
@@ -62,26 +64,106 @@ switch ($method) {
         $description      = $data['description'] ?? '';
         $transaction_date = $data['transaction_date']; // "YYYY-MM-DD"
 
-        $stmt = $pdo->prepare(
-            "INSERT INTO transactions 
-             (wallet_id, type, amount, description, transaction_date) 
-             VALUES (?, ?, ?, ?, ?)"
-        );
-
-        if ($stmt->execute([$wallet_id, $type, $amount, $description, $transaction_date])) {
+        // Start transaction to ensure data consistency
+        $pdo->beginTransaction();
+        
+        try {
+            // Insert the transaction
+            $stmt = $pdo->prepare(
+                "INSERT INTO transactions 
+                 (wallet_id, type, amount, description, transaction_date) 
+                 VALUES (?, ?, ?, ?, ?)"
+            );
+            $stmt->execute([$wallet_id, $type, $amount, $description, $transaction_date]);
+            
+            // Update wallet balance
+            // For Income: add to balance, For Expense: subtract from balance
+            $balanceChange = ($type === 'Income') ? $amount : -$amount;
+            
+            $stmt = $pdo->prepare(
+                "UPDATE wallets 
+                 SET balance = balance + ? 
+                 WHERE id = ?"
+            );
+            $stmt->execute([$balanceChange, $wallet_id]);
+            
+            // Commit the transaction
+            $pdo->commit();
+            
             header('Content-Type: application/json');
-            echo json_encode(["message" => "Transaction added successfully"]);
-        } else {
+            echo json_encode([
+                "message" => "Transaction added successfully",
+                "transaction_type" => $type,
+                "amount" => $amount,
+                "balance_change" => $balanceChange
+            ]);
+        } catch (Exception $e) {
+            // Roll back the transaction if something failed
+            $pdo->rollBack();
             http_response_code(500);
-            echo json_encode(["message" => "Error adding transaction"]);
+            echo json_encode(["message" => "Error adding transaction: " . $e->getMessage()]);
         }
         break;
 
-    // You can add PUT (update) and DELETE (remove) cases here
+    case 'DELETE':
+        if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+            $transaction_id = intval($_GET['id']);
+            
+            // Start transaction
+            $pdo->beginTransaction();
+            
+            try {
+                // First get the transaction details to know how to adjust the wallet balance
+                $stmt = $pdo->prepare(
+                    "SELECT wallet_id, type, amount 
+                     FROM transactions 
+                     WHERE id = ?"
+                );
+                $stmt->execute([$transaction_id]);
+                $transaction = $stmt->fetch();
+                
+                if (!$transaction) {
+                    http_response_code(404);
+                    echo json_encode(["message" => "Transaction not found"]);
+                    exit();
+                }
+                
+                // Calculate the reverse balance change to undo this transaction
+                // If it was Income, we subtract; if it was Expense, we add back
+                $balanceChange = ($transaction['type'] === 'Income') ? -$transaction['amount'] : $transaction['amount'];
+                
+                // Update the wallet balance
+                $stmt = $pdo->prepare(
+                    "UPDATE wallets 
+                     SET balance = balance + ? 
+                     WHERE id = ?"
+                );
+                $stmt->execute([$balanceChange, $transaction['wallet_id']]);
+                
+                // Delete the transaction
+                $stmt = $pdo->prepare("DELETE FROM transactions WHERE id = ?");
+                $stmt->execute([$transaction_id]);
+                
+                // Commit the transaction
+                $pdo->commit();
+                
+                header('Content-Type: application/json');
+                echo json_encode(["message" => "Transaction deleted successfully"]);
+            } catch (Exception $e) {
+                // Roll back the transaction if something failed
+                $pdo->rollBack();
+                http_response_code(500);
+                echo json_encode(["message" => "Error deleting transaction: " . $e->getMessage()]);
+            }
+        } else {
+            http_response_code(400);
+            echo json_encode(["message" => "Missing transaction ID"]);
+        }
+        break;
 
     default:
         http_response_code(405);
-        header('Allow: GET, POST');
+        header('Allow: GET, POST, DELETE');
         echo json_encode(["message" => "Method Not Allowed"]);
         break;
 }
